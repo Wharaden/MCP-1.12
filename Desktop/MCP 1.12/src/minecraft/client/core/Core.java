@@ -1,7 +1,9 @@
 package client.core;
 
 import client.Client;
+import client.utils.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 
 public class Core {
 
@@ -17,5 +19,13 @@ public class Core {
 	
 	public Minecraft getMinecraft() {
 		return getClient().getMinecraft();
+	}
+	
+	public Utils getUtils() {
+		return getClient().getUtils();	
+	}
+	
+	public EntityPlayerSP getPlayer() {
+		return getMinecraft().player;
 	}
 }
