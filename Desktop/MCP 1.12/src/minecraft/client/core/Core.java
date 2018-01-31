@@ -1,9 +1,11 @@
 package client.core;
 
 import client.Client;
+import client.utils.ClientInfo;
 import client.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.network.Packet;
 
 public class Core {
 
@@ -27,5 +29,13 @@ public class Core {
 	
 	public EntityPlayerSP getPlayer() {
 		return getMinecraft().player;
+	}
+	
+	public ClientInfo getClientInfo() {
+		return getClient().getInfos();
+	}
+	
+	public void sendPacket(Packet packet) {
+		getPlayer().connection.sendPacket(packet);
 	}
 }

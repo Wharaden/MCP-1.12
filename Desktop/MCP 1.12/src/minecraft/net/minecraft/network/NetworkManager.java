@@ -2,6 +2,9 @@ package net.minecraft.network;
 
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
+import client.modules.types.PacketModifier;
+import client.packet.PacketHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -32,6 +35,8 @@ import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.annotation.Nullable;
 import javax.crypto.SecretKey;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.LazyLoadBase;
@@ -46,6 +51,7 @@ import org.apache.logging.log4j.MarkerManager;
 
 public class NetworkManager extends SimpleChannelInboundHandler < Packet<? >>
 {
+	private Minecraft minecraft = Minecraft.getMinecraft();
     private static final Logger LOGGER = LogManager.getLogger();
     public static final Marker NETWORK_MARKER = MarkerManager.getMarker("NETWORK");
     public static final Marker NETWORK_PACKETS_MARKER = MarkerManager.getMarker("NETWORK_PACKETS", NETWORK_MARKER);
@@ -170,6 +176,11 @@ public class NetworkManager extends SimpleChannelInboundHandler < Packet<? >>
 
     public void sendPacket(Packet<?> packetIn)
     {
+    	
+    	if(this.minecraft.getClient().getPacketHandler().handle(packetIn)) {
+    		return;
+    	}
+ 
         if (this.isChannelOpen())
         {
             this.flushOutboundQueue();

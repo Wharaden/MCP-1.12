@@ -236,7 +236,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
     /** The player's GameProfile properties */
     private final PropertyMap profileProperties;
     private ServerData currentServerData;
-
+    
     /** The RenderEngine instance used by Minecraft */
     private TextureManager renderEngine;
 
@@ -406,6 +406,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
     /** Profiler currently displayed in the debug screen pie chart */
     private String debugProfilerName = "root";
 
+    public Client getClient() {
+		return client;
+	}
+    
     public Minecraft(GameConfiguration gameConfig)
     {
         theMinecraft = this;
@@ -450,7 +454,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
     {
         this.running = true;
 
-        new Client(this);
+        this.client = new Client(this);
         
         try
         {
@@ -2043,6 +2047,8 @@ public class Minecraft implements IThreadListener, ISnooperInfo
                 this.debugCrashKeyPressTime = getSystemTime();
             }
 
+            getClient().getModuleManager().keyPressedEvent();
+            
             this.dispatchKeypresses();
 
             if (this.currentScreen != null)

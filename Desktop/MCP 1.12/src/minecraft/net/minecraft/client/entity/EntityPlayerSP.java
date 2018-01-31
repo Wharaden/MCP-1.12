@@ -25,6 +25,7 @@ import net.minecraft.client.gui.inventory.GuiEditStructure;
 import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
 import net.minecraft.client.gui.inventory.GuiShulkerBox;
+import net.minecraft.client.main.GameConfiguration;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IJumpingMount;
@@ -229,6 +230,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void onUpdate()
     {
+    	
+    	mc.getClient().getModuleManager().onUpdate();
         if (this.world.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
             super.onUpdate();
